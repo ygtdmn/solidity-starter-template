@@ -16,26 +16,20 @@ abstract contract BaseScript is Script {
   /// @dev Used to store the broadcaster's private key if $ETH_FROM is not defined.
   uint256 internal privateKey;
 
-  /// @dev Initializes the transaction broadcaster like this:
+  /// @dev Initializes the transaction broadcaster:
   ///
-  /// - If $ETH_FROM is defined, use it.
-  /// - Otherwise, derive the broadcaster address from $PRIVATE_KEY.
-  /// - If $PRIVATE_KEY is not defined, default to a test private key.
+  /// - Use the private key from $PRIVATE_KEY environment variable
+  /// - If $PRIVATE_KEY is not defined, default to a test private key
   ///
-  /// The use case for $ETH_FROM is to specify the broadcaster key and its address via the command line.
+  /// The broadcaster address is derived from the private key.
   constructor() {
-    address from = vm.envOr({ name: "ETH_FROM", defaultValue: address(0) });
-    if (from != address(0)) {
-      broadcaster = from;
-    } else {
-      string memory pkString = vm.envOr({ name: "PRIVATE_KEY", defaultValue: TEST_PRIVATE_KEY });
-      privateKey = vm.parseUint(pkString);
-      broadcaster = vm.addr(privateKey);
-    }
+    string memory pkString = vm.envOr({ name: "PRIVATE_KEY", defaultValue: TEST_PRIVATE_KEY });
+    privateKey = vm.parseUint(pkString);
+    broadcaster = vm.addr(privateKey);
   }
 
   modifier broadcast() {
-    vm.startBroadcast(broadcaster);
+    vm.startBroadcast(privateKey);
     _;
     vm.stopBroadcast();
   }
