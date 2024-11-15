@@ -42,14 +42,11 @@ tab_width = 4
 wrap_comments = true
 
 [rpc_endpoints]
-arbitrum = "https://arbitrum-mainnet.infura.io/v3/${API_KEY_INFURA}"
-avalanche = "https://avalanche-mainnet.infura.io/v3/${API_KEY_INFURA}"
-base = "https://mainnet.base.org"
-bnb_smart_chain = "https://bsc-dataseed.binance.org"
-gnosis_chain = "https://rpc.gnosischain.com"
-goerli = "https://goerli.infura.io/v3/${API_KEY_INFURA}"
+arbitrum = "https://arb-mainnet.g.alchemy.com/v2/${API_KEY_ALCHEMY}"
+base = "https://base-mainnet.g.alchemy.com/v2/${API_KEY_ALCHEMY}"
 localhost = "http://localhost:8545"
 mainnet = "https://eth-mainnet.g.alchemy.com/v2/${API_KEY_ALCHEMY}"
-optimism = "https://optimism-mainnet.infura.io/v3/${API_KEY_INFURA}"
-polygon = "https://polygon-mainnet.infura.io/v3/${API_KEY_INFURA}"
+optimism = "https://opt-mainnet.g.alchemy.com/v2/${API_KEY_ALCHEMY}"
+polygon = "https://polygon-mainnet.g.alchemy.com/v2/${API_KEY_ALCHEMY}"
 sepolia = "https://eth-sepolia.g.alchemy.com/v2/${API_KEY_ALCHEMY}"
+base_sepolia = "https://base-sepolia.g.alchemy.com/v2/${API_KEY_ALCHEMY}"
