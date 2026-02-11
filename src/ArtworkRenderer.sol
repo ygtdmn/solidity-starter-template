@@ -7,9 +7,6 @@ import { IERC1155 } from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import { Artwork } from "./Artwork.sol";
 import { LibString } from "solady/utils/LibString.sol";
 import { DateTimeLib } from "solady/utils/DateTimeLib.sol";
-import { ENS } from "@ensdomains/ens-contracts/contracts/registry/ENS.sol";
-import { IReverseRegistrar } from "@ensdomains/ens-contracts/contracts/reverseRegistrar/IReverseRegistrar.sol";
-import { INameResolver } from "@ensdomains/ens-contracts/contracts/resolvers/profiles/INameResolver.sol";
 
 /**
  * @title ArtworkRenderer
@@ -43,7 +40,7 @@ contract ArtworkRenderer is Ownable {
      * @dev Renders the SVG image for the token
      * @return string The base64 encoded SVG image
      */
-    function renderImage() public view returns (string memory) {
+    function renderImage() public pure returns (string memory) {
         return string(abi.encodePacked("data:image/svg+xml;base64,", "svg-content"));
     }
 

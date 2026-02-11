@@ -3,10 +3,8 @@ pragma solidity >=0.8.27;
 
 import { IERC721CreatorCore } from "@manifoldxyz/creator-core-solidity/contracts/core/IERC721CreatorCore.sol";
 import { IERC1155CreatorCore } from "@manifoldxyz/creator-core-solidity/contracts/core/IERC1155CreatorCore.sol";
-import { ICreatorExtensionTokenURI } from
-    "@manifoldxyz/creator-core-solidity/contracts/extensions/ICreatorExtensionTokenURI.sol";
-import { IERC1155CreatorExtensionApproveTransfer } from
-    "@manifoldxyz/creator-core-solidity/contracts/extensions/ERC1155/IERC1155CreatorExtensionApproveTransfer.sol";
+import { ICreatorExtensionTokenURI } from "@manifoldxyz/creator-core-solidity/contracts/extensions/ICreatorExtensionTokenURI.sol";
+import { IERC1155CreatorExtensionApproveTransfer } from "@manifoldxyz/creator-core-solidity/contracts/extensions/ERC1155/IERC1155CreatorExtensionApproveTransfer.sol";
 import { IERC165, ERC165 } from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import { ERC165Checker } from "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
@@ -78,9 +76,10 @@ contract Artwork is ICreatorExtensionTokenURI, IERC1155CreatorExtensionApproveTr
      * @return bool True if the interface is supported, false otherwise
      */
     function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC165) returns (bool) {
-        return interfaceId == type(ICreatorExtensionTokenURI).interfaceId
-            || interfaceId == type(IERC1155CreatorExtensionApproveTransfer).interfaceId
-            || super.supportsInterface(interfaceId);
+        return
+            interfaceId == type(ICreatorExtensionTokenURI).interfaceId ||
+            interfaceId == type(IERC1155CreatorExtensionApproveTransfer).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     /**
@@ -109,11 +108,7 @@ contract Artwork is ICreatorExtensionTokenURI, IERC1155CreatorExtensionApproveTr
         address to,
         uint256[] calldata,
         uint256[] calldata
-    )
-        external
-        override
-        returns (bool)
-    {
+    ) external override returns (bool) {
         if (from != to) {
             currentOwner = to;
         }
