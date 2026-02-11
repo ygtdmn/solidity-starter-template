@@ -4,10 +4,12 @@
         "code-complexity": ["error", 8],
         "func-name-mixedcase": "off",
         "func-visibility": ["error", { "ignoreConstructors": true }],
-        "max-line-length": ["error", 120],
         "named-parameters-mapping": "warn",
         "no-console": "off",
         "not-rely-on-time": "off",
-        "one-contract-per-file": "warn"
+        "one-contract-per-file": "warn",
+        "use-natspec": "off",
+        "gas-small-strings": "off",
+        "quotes": "off"
     }
 }

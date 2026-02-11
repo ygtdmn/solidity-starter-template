@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.27;
 
-import { IERC721CreatorCore } from "@manifoldxyz/creator-core-solidity/contracts/core/IERC721CreatorCore.sol";
 import { IERC1155CreatorCore } from "@manifoldxyz/creator-core-solidity/contracts/core/IERC1155CreatorCore.sol";
 import { ICreatorExtensionTokenURI } from "@manifoldxyz/creator-core-solidity/contracts/extensions/ICreatorExtensionTokenURI.sol";
 import { IERC1155CreatorExtensionApproveTransfer } from "@manifoldxyz/creator-core-solidity/contracts/extensions/ERC1155/IERC1155CreatorExtensionApproveTransfer.sol";
@@ -19,6 +18,10 @@ contract Artwork is ICreatorExtensionTokenURI, IERC1155CreatorExtensionApproveTr
     address public creatorContractAddress;
     uint256 public tokenId;
     address public currentOwner;
+
+    error AlreadyMinted();
+    error CreatorMustBeTheCreatorContractAddress();
+    error CreatorMustImplementIERC1155CreatorCore();
 
     /**
      * @dev Constructor initializes the contract with a metadata renderer and creator contract address.
@@ -58,7 +61,7 @@ contract Artwork is ICreatorExtensionTokenURI, IERC1155CreatorExtensionApproveTr
      * @dev Mints a new token to the contract owner. Can only be called once.
      */
     function mint() external onlyOwner {
-        require(tokenId == 0, "Already minted");
+        require(tokenId == 0, AlreadyMinted());
         address[] memory dest = new address[](1);
         uint256[] memory quantities = new uint256[](1);
         string[] memory uris = new string[](1);
@@ -76,10 +79,9 @@ contract Artwork is ICreatorExtensionTokenURI, IERC1155CreatorExtensionApproveTr
      * @return bool True if the interface is supported, false otherwise
      */
     function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC165) returns (bool) {
-        return
-            interfaceId == type(ICreatorExtensionTokenURI).interfaceId ||
-            interfaceId == type(IERC1155CreatorExtensionApproveTransfer).interfaceId ||
-            super.supportsInterface(interfaceId);
+        return interfaceId == type(ICreatorExtensionTokenURI).interfaceId
+            || interfaceId == type(IERC1155CreatorExtensionApproveTransfer).interfaceId
+            || super.supportsInterface(interfaceId);
     }
 
     /**
@@ -90,9 +92,9 @@ contract Artwork is ICreatorExtensionTokenURI, IERC1155CreatorExtensionApproveTr
     function setApproveTransfer(address creator, bool enabled) external override {
         require(
             ERC165Checker.supportsInterface(creator, type(IERC1155CreatorCore).interfaceId),
-            "creator must implement IERC1155CreatorCore"
+            CreatorMustImplementIERC1155CreatorCore()
         );
-        require(creator == creatorContractAddress, "creator must be the creator contract address");
+        require(creator == creatorContractAddress, CreatorMustBeTheCreatorContractAddress());
         IERC1155CreatorCore(creator).setApproveTransferExtension(enabled);
     }
 

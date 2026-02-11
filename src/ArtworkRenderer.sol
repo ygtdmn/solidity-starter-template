@@ -2,11 +2,8 @@
 pragma solidity >=0.8.27;
 
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { Base64 } from "solady/utils/Base64.sol";
 import { IERC1155 } from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import { Artwork } from "./Artwork.sol";
-import { LibString } from "solady/utils/LibString.sol";
-import { DateTimeLib } from "solady/utils/DateTimeLib.sol";
 
 /**
  * @title ArtworkRenderer
@@ -61,7 +58,7 @@ contract ArtworkRenderer is Ownable {
         ephemera = IERC1155(_ephemera);
     }
 
-    function setMetadata(string memory _metadata) external onlyOwner {
+    function setMetadata(string calldata _metadata) external onlyOwner {
         metadata = _metadata;
     }
 }
